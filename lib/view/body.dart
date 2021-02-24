@@ -1,11 +1,16 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_connpass_api_app/model/connpass_response.dart';
+import 'package:flutter_connpass_api_app/view/main_view_model.dart';
+import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_connpass_api_app/view/detail.dart';
 
 
 
- /// ListView表示部分
+ /// ListView部分
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -19,15 +24,20 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _searchQuery = TextEditingController();
   ScrollController _scrollController;
 
+
+
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    // Linstenerを追加して更新処理を実装する
     _scrollController.addListener(() {
       final maxScrollExtent = _scrollController.position.maxScrollExtent;
       final currentPosition = _scrollController.position.pixels;
       if (maxScrollExtent > 0 && (maxScrollExtent - 20.0) <= currentPosition) {
-        // ignore: flutter_style_todos
+        // ↑ 下端位置から20pixelの位置に達したら、コンテンツを読み込む
+        // position.maxScrollExtent => ListView全体の下端位置
+        // position.pixels => 現在の表示位置
         // TODO pagination
       }
     });
@@ -38,23 +48,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // StateNotifierのStateを読む
     // context.select<Data,T>でデータを読み出す。　selectはデータに変化があった際に自動でrebuildしてくれる
-    final response = context.select<ViewModelData, ConnpassResponse>((data) => data.response);
-    final state = context.select<ViewModelData, ViewModelState>((data) => data.viewModelState);
+    final response = context.select<MainViewModelData, ConnpassResponse>((data) => data.response);
+    final state = context.select<MainViewModelData, MainViewModelState>((data) => data.viewModelState);
     final List<ConnpassResponse> eventList = response != null ? response.events : [];
 
     // ListViewでJSONデータを表示
-    var body = eventList.isNotEmpty ?
-    ListView(
-        scrollDirection: Axis.vertical,
-        controller: _scrollController,
+    var body = eventList.isNotEmpty ?  // 検索結果がnullの場合エラー表示
+    return Container(
+      child: ListView(
         children: eventList
             .map((event) => Card(
-            child: ListTile(
-              title: Text(event.title),
-              subtitle: Text(detailSection(),),
+        scrollDirection: Axis.vertical,
+        controller: _scrollController,
+          child: ListTile(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              title: Text(event),
+              subtitle: Text detailSection(),
               onTap: () => _launchURL(event),
-            )))
-            .toList())
+            ],
+          )
+         )
+        )
+      )
+        .toList())
+
         : const Center(
       child: Padding(
         padding: EdgeInsets.all(24),
@@ -66,9 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    if (state == ViewModelState.loading) {
+    if (state == MainViewModelState.loading) {
       body = const Center(child: CircularProgressIndicator(),);
-    } else if (state == ViewModelState.error) {
+    } else if (state == MainViewModelState.error) {
       body = const Center(
         child: Padding(
           padding: EdgeInsets.all(24),
@@ -104,15 +122,16 @@ class _MyHomePageState extends State<MyHomePage> {
       body: body,
     );
   }
-}
+
 
 // ブラウザで開く
-_launchURL(String url) async {
-  const url = 'https://connpass.com/api/v1/event/';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    // ignore: only_throw_errors
-    throw 'Could not launch $url';
+  _launchURL(String url) async {
+    const url = 'https://connpass.com/api/v1/event/';
+    // urlが開けない場合の処理
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      // ignore: only_throw_errors
+      throw 'Could not launch $url';
+    }
   }
-}
