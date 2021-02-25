@@ -10,10 +10,8 @@ class MainViewModel extends StateNotifier<MainViewModelData> {
     state = state.copyWith(viewModelState: MainViewModelState.loading);
     get(keyword)
         .then((res) {
-      // ignore: lines_longer_than_80_chars
       state = state.copyWith(response: res, viewModelState: MainViewModelState.normal);
     }).catchError((_) {
-      // ignore: lines_longer_than_80_chars
       state = state.copyWith(response: null, viewModelState: MainViewModelState.error);
     });
   }
