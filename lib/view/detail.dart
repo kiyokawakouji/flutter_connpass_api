@@ -14,6 +14,7 @@ String buildDetail() {
 }
 
 detailSection(Map<String, String> detailMap) {
+  // ここにスタイルを書く
 }
 
 

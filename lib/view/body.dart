@@ -27,51 +27,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    // Linstenerを追加して更新処理を実装する
-    _scrollController.addListener(() {
-      final maxScrollExtent = _scrollController.position.maxScrollExtent;
-      final currentPosition = _scrollController.position.pixels;
-      if (maxScrollExtent > 0 && (maxScrollExtent - 20.0) <= currentPosition) {
-        // ↑ 下端位置から20pixelの位置に達したら、コンテンツを読み込む
-        // position.maxScrollExtent => ListView全体の下端位置
-        // position.pixels => 現在の表示位置
-        // TODO pagination
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
 
     // StateNotifierのStateを読む
     // context.select<Data,T>でデータを読み出す。　selectはデータに変化があった際に自動でrebuildしてくれる
     final response = context.select<MainViewModelData, ConnpassResponse>((data) => data.response);
     final state = context.select<MainViewModelData, MainViewModelState>((data) => data.viewModelState);
-    final List<ConnpassResponse> eventList = response != null ? response.events : [];
 
     // ListViewでJSONデータを表示
-    var body = eventList.isNotEmpty ?  // 検索結果がnullの場合エラー表示
-    return Container(
-      child: ListView(
-        children: eventList
-            .map((event) => Card(
-        scrollDirection: Axis.vertical,
-        controller: _scrollController,
-          child: ListTile(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              title: Text(event),
-              subtitle: Text detailSection(),
-              onTap: () => _launchURL(event),
-            ],
-          )
-         )
-        )
+    body: ListView.builder(
+    itemBuilder: (BuildContext context, int index){
+      return Container(
+      child: const ListTile(
       )
-        .toList())
+    }
+      itemCount: listItem.length, // 取得したJSON(文字列)をデータ量関係なく表示する
+    )
+    )
+    // return Container(
+    //   child: ListView.builder(
+    //         .map((event) => Card(
+    //     scrollDirection: Axis.vertical,
+    //     controller: _scrollController,
+    //     itemBuilder: (BuildContext context, int index) {
+    //       child: ListTile(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           title: Text(event),
+    //           subtitle: Text detailSection(),
+    //           onTap: () => _launchURL(event),
+    //         ],
+    //       )
+    //      )
+    //     ),
+    //     },
+    //   )
+    //     .toList())
 
         : const Center(
       child: Padding(
@@ -84,16 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    if (state == MainViewModelState.loading) {
-      body = const Center(child: CircularProgressIndicator(),);
-    } else if (state == MainViewModelState.error) {
-      body = const Center(
-        child: Padding(
-          padding: EdgeInsets.all(24),
-          // ignore: lines_longer_than_80_chars
-          child: Text('エラーが発生しました。検索ワードを変えてお試しください', style: TextStyle(fontSize: 19), textAlign: TextAlign.center,),
-        ),);
-    }
     // AppBar 検索バー
     return Scaffold(
       appBar: AppBar(
@@ -123,8 +104,25 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    // Linstenerを追加して更新処理を実装する
+    _scrollController.addListener(() {
+      final maxScrollExtent = _scrollController.position.maxScrollExtent;
+      final currentPosition = _scrollController.position.pixels;
+      if (maxScrollExtent > 0 && (maxScrollExtent - 20.0) <= currentPosition) {
+        // ↑ 下端位置から20pixelの位置に達したら、コンテンツを読み込む
+        // position.maxScrollExtent => ListView全体の下端位置
+        // position.pixels => 現在の表示位置
+        // TODO pagination
+      }
+    });
+  }
 
-// ブラウザで開く
+
+ // ブラウザで開く
   _launchURL(String url) async {
     const url = 'https://connpass.com/api/v1/event/';
     // urlが開けない場合の処理
