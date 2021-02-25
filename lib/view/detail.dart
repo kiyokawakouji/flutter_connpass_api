@@ -23,12 +23,7 @@ Widget buildDetailRow(Map<String, String> detailMap) {
       Expanded(
       flex: 1,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          10,
-          5,
-          5,
-          5,
-        ),
+        padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
         child: Text(key ?? ''),
       ),
     ),
