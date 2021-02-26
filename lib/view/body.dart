@@ -1,11 +1,11 @@
 import 'dart:html';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/model/connpass_response.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_connpass_api_app/view/detail.dart';
 
 
@@ -45,7 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     // StateNotifierのStateを読む
-    // context.select<Data,T>でデータを読み出す。　selectはデータに変化があった際に自動でrebuildしてくれる
+    // context.select<Data,T>でデータを読み出す
+    // selectはデータに変化があった際に自動でrebuildしてくれる
     final response = context.select<MainViewModelData, ConnpassResponse>((data) => data.response);
     final state = context.select<MainViewModelData, MainViewModelState>((data) => data.viewModelState);
     final List<EventResponse> eventList = response != null ? response.events : [];

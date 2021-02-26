@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:convert';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/view/body.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
-import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());

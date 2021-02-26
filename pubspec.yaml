@@ -29,6 +29,9 @@ dependencies:
   freezed_annotation: ^0.11.0
   provider: ^4.3.1
   url_launcher: ^5.5.0
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.16.1
 
 
   # The following adds the Cupertino Icons font to your application.

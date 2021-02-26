@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
 import 'package:flutter_connpass_api_app/model/connpass_response.dart';
+import 'package:http/http.dart' as http;
 
  /// APIコール
 Future<ConnpassResponse> get(String keyword) async {
