@@ -15,19 +15,6 @@ part 'connpass_response.g.dart';
      final List<EventResponse> events,
    }) = _ConnpassResponse;
 
-   factory ConnpassResponse.fromJson(Map<String, dynamic> json) => _$ConnpassResponseFromJson(json);
+   factory ConnpassResponse.fromJson(Map<String, dynamic> json) =>
+       _$ConnpassResponseFromJson(json);
  }
-
-// class ConnpassRepository {
-//   final int resultsReturned;
-//   final int resultsAvailable;
-//   final int resultsStart;
-//   final List<EventRepository> events;
-//
-//   ConnpassRepository({
-//     this.resultsReturned,
-//     this.resultsAvailable,
-//     this.resultsStart,
-//     this.events
-//   });
-

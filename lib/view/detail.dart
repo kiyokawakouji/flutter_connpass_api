@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_connpass_api_app/view/body.dart';
 
-// ignore: missing_return, non_constant_identifier_names
+
+
+recognizer: TapGestureRecognizer()
+..onTap = () async {
+await launch(
+event.eventUrl,
+forceWebView: true,
+forceSafariVC: true,
+);
+}
+
+
+// イベント詳細のレイアウト
 Widget buildDetail() {
-  final detailMap = <String>{
-  '日時:${changeTimeFormat(event.startedAt)}~${changeTimeFormat(event.endedAt)}';
-  '会場:${event.place}';
-  '所在地:${event.address}';
-  '"l(^Δ^)l""l(^Δ^)l""l(^Δ^)l"';
+  final detailMap = <String, String>{
+    '開催日時': changeTimeFormat(event.startedAt),
+    '終了日時': changeTimeFormat(event.endedAt),
+    '会場': event.place,
+    '会場の所在地': event.address,
   };
+
   return Container(
-  child: buildDetailRow(detailMap)
+      child: buildDetailRow(detailMap)
   );
 }
-  // ISO-8601形式を「○○/○○/○○/○○:○○」に変換
-  String changeTimeFormat(String before) {
+
+// ISO-8601形式を「○○/○○/○○/○○:○○」に変換
+String changeTimeFormat(String before) {
   initializeDateFormatting('ja_JP');
 
   final datetime = DateTime.parse(before);
   final formatter = DateFormat('yyyy/MM/dd HH:mm');
   final formatted = formatter.format(datetime);
   return formatted;
-  }
+}
 
 Widget buildDetailRow(Map<String, String> detailMap) {
   final detailList = <Widget>[];
@@ -40,6 +52,6 @@ Widget buildDetailRow(Map<String, String> detailMap) {
           ),
         ]
     ));
-   }
+  }
   );
 }
