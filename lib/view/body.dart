@@ -1,10 +1,5 @@
-import 'dart:html';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter_connpass_api_app/model/connpass_response.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
@@ -14,7 +9,7 @@ import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 
  /// ListView部分
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title, @required this.event}) : super(key: key);
+  const MyHomePage({Key key, this.title, this.event}) : super(key: key);
 
   final String title;
   final EventResponse event;
@@ -39,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // ↑ 下端位置から20pixelの位置に達したら、コンテンツを読み込む
         // position.maxScrollExtent => ListView全体の下端位置
         // position.pixels => 現在の表示位置
-        // TODO pagination
       }
     });
   }
@@ -49,12 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // StateNotifierのStateを読む
     // context.select<Data,T>でデータを読み出す
     // selectはデータに変化があった際に自動でrebuildしてくれる
-    final response = context.select<MainViewModelData, ConnpassResponse>((
-        data) => data.response);
-    final state = context.select<MainViewModelData, MainViewModelState>((
-        data) => data.viewModelState);
-    final List<EventResponse> eventList = response != null ? response.events : [
-    ];
+    final response = context.select<MainViewModelData,
+        ConnpassResponse>((data) => data.response);
+    final state = context.select<MainViewModelData,
+        MainViewModelState>((data) => data.viewModelState);
+    final List<EventResponse> eventList = response != null ? response.events : [];
 
     // ListViewでJSONデータを表示
     var body = eventList.isNotEmpty
@@ -76,7 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       FlatButton(
                         child: const Text('詳細'),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/detail');
+                        },
                       ),
                     ],
                   ),
@@ -120,7 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             decoration: const InputDecoration(
               labelText: '検索バー',
-              hintText: ' 例: 東京 Flutter ',
               labelStyle: TextStyle(
                 color: Colors.white,
               ),
@@ -140,13 +134,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-// ブラウザで開く
-// _launchURL(String url) async {
-// const url = 'https://connpass.com/api/v1/event/';
-// // urlが開けない場合の処理
-//  if (await canLaunch(url)) {
-//    await launch(url);
-// } else {
-//    throw 'Could not launch $url';
-//  }
-// }

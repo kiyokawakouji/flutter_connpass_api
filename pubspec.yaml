@@ -43,6 +43,7 @@ dev_dependencies:
     sdk: flutter
   pedantic_mono: any
   build_runner: ^1.10.0
+  json_serializable: ^3.3.0
   freezed: ^0.11.4
 
 # For information on the generic Dart part of this file, see the

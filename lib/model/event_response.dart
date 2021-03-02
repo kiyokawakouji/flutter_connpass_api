@@ -20,7 +20,7 @@ part 'event_response.g.dart';
      final String address,
      final String place,
    }) = _EventResponse;
-
+   // JSONをMap(連想配列)の形式に変換する
    factory EventResponse.fromJson(Map<String, dynamic> json) =>
        _$EventResponseFromJson(json);
  }

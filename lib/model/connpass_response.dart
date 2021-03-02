@@ -14,7 +14,7 @@ part 'connpass_response.g.dart';
      final int resultsAvailable,
      final List<EventResponse> events,
    }) = _ConnpassResponse;
-
+   // JSONをMap(連想配列)の形式に変換する
    factory ConnpassResponse.fromJson(Map<String, dynamic> json) =>
        _$ConnpassResponseFromJson(json);
  }

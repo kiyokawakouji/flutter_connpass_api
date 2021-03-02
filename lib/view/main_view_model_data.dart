@@ -1,8 +1,7 @@
- // ここにviewに使われるレスポンスデータをfreezedで定義
- import 'package:freezed_annotation/freezed_annotation.dart';
- import 'package:flutter_connpass_api_app/model/connpass_response.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter_connpass_api_app/model/connpass_response.dart';
 
- part 'main_view_model_data.freezed.dart';
+part 'main_view_model_data.freezed.dart';
 
  enum MainViewModelState { normal, loading, error }
 

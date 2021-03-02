@@ -1,8 +1,10 @@
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/view/body.dart';
+import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Google Book State Notifier Sample',
+      title: 'Connpass Event State Search App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -22,6 +24,10 @@ class MyApp extends StatelessWidget {
         create: (_) => MainViewModel(),
         child: const MyHomePage(title: 'Connpass Event Search App'),
       ),
+      routes: <String, WidgetBuilder> {
+        '/body': (BuildContext context) =>  const MyHomePage(),
+        '/detail': (BuildContext context) => const Detail(event: null,)
+     },
     );
   }
 }
