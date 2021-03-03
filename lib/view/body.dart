@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/model/connpass_response.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
@@ -7,19 +8,20 @@ import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 
 
 
+
  /// ListView部分
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title, this.event}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
-  final EventResponse event;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _searchQuery = TextEditingController();
+  // AppBarに検索バーを作成
+  final TextEditingController _search = TextEditingController();
   ScrollController _scrollController;
 
   @override
@@ -42,15 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // StateNotifierのStateを読む
     // context.select<Data,T>でデータを読み出す
-    // selectはデータに変化があった際に自動でrebuildしてくれる
-    final response = context.select<MainViewModelData,
-        ConnpassResponse>((data) => data.response);
-    final state = context.select<MainViewModelData,
-        MainViewModelState>((data) => data.viewModelState);
+    // selectはデータに変化があった際に自動でrebuildしてくれる(copyWith)
+    final response = context.select<MainViewModelData, ConnpassResponse>((data) => data.response);
+    final state = context.select<MainViewModelData, MainViewModelState>((data) => data.viewModelState);
     final List<EventResponse> eventList = response != null ? response.events : [];
 
     // ListViewでJSONデータを表示
-    var body = eventList.isNotEmpty
+    Widget body = eventList.length > 0
         ? ListView(
         scrollDirection: Axis.vertical,
         controller: _scrollController,
@@ -60,39 +60,44 @@ class _MyHomePageState extends State<MyHomePage> {
             Column(
               children: [
                 ListTile(
-                  title: Text(event.title),
-                  subtitle: Text(event.catchMessage),
+                    title: Text(event.title),
                 ),
                 ButtonBarTheme(
-                  data: const ButtonBarThemeData(),
-                  child: ButtonBar(
-                    children: <Widget>[
-                      FlatButton(
-                        child: const Text('詳細'),
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/detail');
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                    data: const ButtonBarThemeData(),
+                    child: ButtonBar(
+                      children: <Widget>[
+                        FlatButton(
+                          child: const Text('詳細'),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                  const Detail(event: null,),
+                                )
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                )
               ],
             )
-          )
-        .toList()
         )
+            .toList()
+    )
 
     // bodyの初期画面
         : const Center(
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Text(
-              'ここに検索結果を表示する',
-              style: TextStyle(fontSize: 19),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        );
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Text(
+          'ここに検索結果を表示する',
+          style: TextStyle(fontSize: 19),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
 
     if (state == MainViewModelState.loading) {
       body = const Center(child: CircularProgressIndicator(),);
@@ -102,14 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.all(24),
           child: Text('エラーが発生しました。検索ワードを変えてお試しください',
             style: TextStyle(fontSize: 19), textAlign: TextAlign.center,),
-      ),);
+        ),);
     }
+
 
     // AppBar 検索バー
     return Scaffold(
       appBar: AppBar(
         title: TextField(
-            controller: _searchQuery,
+            controller: _search,
             style: const TextStyle(
               color: Colors.white,
             ),
@@ -124,13 +130,12 @@ class _MyHomePageState extends State<MyHomePage> {
             )
         ),
         actions: <Widget>[
-          IconButton(icon: const Icon(Icons.search), onPressed:() {
-            context.read<MainViewModel>().fetch(_searchQuery.text);
-           })
-         ],
+          IconButton(icon: const Icon(Icons.search), onPressed: () {
+            context.read<MainViewModel>().fetch(_search.text);
+          })
+        ],
       ),
       body: body,
     );
   }
 }
-

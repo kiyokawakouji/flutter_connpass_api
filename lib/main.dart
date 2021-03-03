@@ -1,7 +1,6 @@
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/view/body.dart';
-import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 
@@ -22,12 +21,8 @@ class MyApp extends StatelessWidget {
       ),
       home: StateNotifierProvider<MainViewModel, MainViewModelData>(
         create: (_) => MainViewModel(),
-        child: const MyHomePage(title: 'Connpass Event Search App'),
+        child: MyHomePage(title: 'Connpass Event Search App'),
       ),
-      routes: <String, WidgetBuilder> {
-        '/body': (BuildContext context) =>  const MyHomePage(),
-        '/detail': (BuildContext context) => const Detail(event: null,)
-     },
     );
   }
 }

@@ -6,9 +6,9 @@ import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 class MainViewModel extends StateNotifier<MainViewModelData> {
   MainViewModel(): super(const MainViewModelData());
 
-  void fetch(String keyword) {
+  void fetch(String searchWord) {
     state = state.copyWith(viewModelState: MainViewModelState.loading);
-    getEvents(keyword)
+    getEvents(searchWord)
         .then((res) {
       state = state.copyWith(response: res,
           viewModelState: MainViewModelState.normal);
