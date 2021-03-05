@@ -1,3 +1,4 @@
+import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/view/body.dart';
@@ -21,8 +22,13 @@ class MyApp extends StatelessWidget {
       ),
       home: StateNotifierProvider<MainViewModel, MainViewModelData>(
         create: (_) => MainViewModel(),
-        child: MyHomePage(title: 'Connpass Event Search App'),
+        child: const MyHomePage(title: 'Connpass Event Search App'),
       ),
+    // initialRoute: '/',
+    // routes: <String, WidgetBuilder>{
+    //   '/': (BuildContext context) => const MyHomePage(),
+    //   '/detail': (BuildContext context) => const Detail(title: 'イベント詳細'),
+    //   }
     );
   }
 }

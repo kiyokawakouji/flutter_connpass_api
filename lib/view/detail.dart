@@ -5,23 +5,26 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
+ /// イベント詳細のレイアウト
 class Detail extends StatelessWidget {
+  final EventResponse event;
   const Detail({Key key, @required this.event}) : super(key: key);
 
-  final EventResponse event;
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('イベント詳細'),
+        title: const Text('イベント詳細'),
       ),
       body: Container(
+        margin: const EdgeInsets.fromLTRB(10, 20, 30, 40),
+        padding: const EdgeInsets.fromLTRB(10, 20, 50, 80),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             buildDetail(),
-            //buildUrl(),
+            buildUrl(),
           ],
         ),
       ),
@@ -29,9 +32,9 @@ class Detail extends StatelessWidget {
   }
 
 
-// イベント詳細のレイアウト
   Widget buildDetail() {
-    final detailMap = <String, String>{
+    Map<String, String> detailMap = {
+    // final detailMap = <String, String>{
       '開催日時': changeTimeFormat(event.startedAt),
       '終了日時': changeTimeFormat(event.endedAt),
       '会場': event.place,
@@ -43,18 +46,7 @@ class Detail extends StatelessWidget {
     );
   }
 
-// ISO-8601形式を「○○/○○/○○/○○:○○」に変換
-  String changeTimeFormat(String before) {
-    initializeDateFormatting('ja_JP');
 
-    final datetime = DateTime.parse(before);
-    final formatter = DateFormat('yyyy/MM/dd HH:mm');
-    final formatted = formatter.format(datetime);
-    return formatted;
-  }
-
-  // Widget buildDetailRow(Map<String, dynamic> detailMap) {
-  //   final detailList = <Widget>[];
   Widget buildDetailRow(Map<String, String> detailMap) {
     final detailList = <Widget>[];
     detailMap.forEach((key, value) {
@@ -72,7 +64,7 @@ class Detail extends StatelessWidget {
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                child: Text(value ?? ''),
+                child: Text(key ?? ''),
               ),
             ),
           ],
@@ -86,11 +78,38 @@ class Detail extends StatelessWidget {
 
 
 }
-//
-// _launchURL(String url) async {
-//   if (await canLaunch(url)) {
-//     await launch(url);
-//   } else {
-//     throw 'Could not launch $url';
-//   }
-// }
+
+ Widget buildUrl() {
+  return Container(
+      padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+    child: RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        children: [
+        TextSpan(
+          text: 'connpassページはこちらから',
+          style: const TextStyle(color: Colors.lightBlue),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () async {
+              await launch(
+                event.eventUrl,
+                forceWebView: true,  // ios内かブラウザのどちらで開くかを指定 trunはios
+                forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
+              );
+             }
+          ),
+         ]
+       ),
+     )
+   );
+ }
+
+// ISO-8601形式を「○○/○○/○○/○○:○○」に変換
+  String changeTimeFormat(String before) {
+    initializeDateFormatting('ja_JP');
+
+    final datetime = DateTime.parse(before);
+    final formatter = DateFormat('yyyy/MM/dd HH:mm');
+    final formatted = formatter.format(datetime);
+    return formatted;
+  }

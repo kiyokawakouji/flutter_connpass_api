@@ -57,35 +57,27 @@ class _MyHomePageState extends State<MyHomePage> {
         shrinkWrap: true,
         children: eventList
             .map((event) =>
-            Column(
-              children: [
-                ListTile(
-                    title: Text(event.title),
-                ),
-                ButtonBarTheme(
-                    data: const ButtonBarThemeData(),
-                    child: ButtonBar(
-                      children: <Widget>[
-                        FlatButton(
-                          child: const Text('詳細'),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                  const Detail(event: null,),
-                                )
-                            );
-                          },
-                        ),
-                      ],
-                    )
-                )
-              ],
+            Card(
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context)=> const Detail(),
+                          )
+                      );
+                    },
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(event.title),
+                 ),
+               ],
+              )
+             )
             )
         )
-            .toList()
-    )
+            .toList())
 
     // bodyの初期画面
         : const Center(
@@ -111,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
 
-    // AppBar 検索バー
+    /// AppBar 検索バー
     return Scaffold(
       appBar: AppBar(
         title: TextField(

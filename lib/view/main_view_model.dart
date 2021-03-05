@@ -12,7 +12,7 @@ class MainViewModel extends StateNotifier<MainViewModelData> {
         .then((res) {
       state = state.copyWith(response: res,
           viewModelState: MainViewModelState.normal);
-    }).catchError((_) {
+    }).catchError((_) {  // エラーハンドリング
       state = state.copyWith(response: null,
           viewModelState: MainViewModelState.error);
     });
