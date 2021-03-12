@@ -5,14 +5,22 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
  /// イベント詳細のレイアウト
 class Detail extends StatelessWidget {
-  final EventResponse event;
-  const Detail({Key key, @required this.event}) : super(key: key);
+  EventResponse event;
+  //Detail(EventResponse event);
+
+  //Detail(EventResponse event);
+
+  //const Detail(Type eventResponse, this.event);
+  Detail({Key key, @required this.event}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
+    // パラメーターを取り出す
+    final List<EventResponse> args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: const Text('イベント詳細'),
@@ -34,7 +42,6 @@ class Detail extends StatelessWidget {
 
   Widget buildDetail() {
     Map<String, String> detailMap = {
-    // final detailMap = <String, String>{
       '開催日時': changeTimeFormat(event.startedAt),
       '終了日時': changeTimeFormat(event.endedAt),
       '会場': event.place,
@@ -51,23 +58,23 @@ class Detail extends StatelessWidget {
     final detailList = <Widget>[];
     detailMap.forEach((key, value) {
       detailList.add(Row(
-          crossAxisAlignment: CrossAxisAlignment.start, // Rowなら左寄せ
-          children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                child: Text(key ?? ''),
-              ),
+        crossAxisAlignment: CrossAxisAlignment.start, // Rowなら左寄せ
+        children: [
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+              child: Text(key ?? ''),
             ),
-            Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                child: Text(key ?? ''),
-              ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              child: Text(key ?? ''),
             ),
-          ],
+          ),
+        ],
       ));
     });
     return Column(
@@ -77,32 +84,30 @@ class Detail extends StatelessWidget {
   }
 
 
-}
-
- Widget buildUrl() {
-  return Container(
+  Widget buildUrl() {
+    return Container(
       padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
-    child: RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        children: [
-        TextSpan(
-          text: 'connpassページはこちらから',
-          style: const TextStyle(color: Colors.lightBlue),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () async {
-              await launch(
-                event.eventUrl,
-                forceWebView: true,  // ios内かブラウザのどちらで開くかを指定 trunはios
-                forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
-              );
-             }
-          ),
-         ]
-       ),
-     )
-   );
- }
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          children: [
+            TextSpan(
+                text: 'connpassページはこちらから',
+                style: const TextStyle(color: Colors.lightBlue),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    await launch(
+                      event.eventUrl,
+                      forceWebView: true, // ios内かブラウザのどちらで開くかを指定 trunはios
+                      forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
+                    );
+                  }
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
 // ISO-8601形式を「○○/○○/○○/○○:○○」に変換
   String changeTimeFormat(String before) {
@@ -113,3 +118,4 @@ class Detail extends StatelessWidget {
     final formatted = formatter.format(datetime);
     return formatted;
   }
+}

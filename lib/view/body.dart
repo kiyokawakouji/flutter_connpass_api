@@ -1,6 +1,5 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/model/connpass_response.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
@@ -8,8 +7,6 @@ import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 
 
 
-
- /// ListView部分
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -40,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  /// ListView部分
   @override
   Widget build(BuildContext context) {
     // StateNotifierのStateを読む
@@ -50,7 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<EventResponse> eventList = response != null ? response.events : [];
 
     // ListViewでJSONデータを表示
-    Widget body = eventList.length > 0
+    // eventListが空ではないかを判定
+    var body = eventList.isNotEmpty
+    //Widget body = eventList.length > 0
         ? ListView(
         scrollDirection: Axis.vertical,
         controller: _scrollController,
@@ -58,22 +58,22 @@ class _MyHomePageState extends State<MyHomePage> {
         children: eventList
             .map((event) =>
             Card(
-                child: InkWell(
+               child: ListTile(
+                  title: Text(event.title),
+
+                //child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context)=> const Detail(),
-                          )
+                      Navigator.pushNamed(
+                        context,
+                        '/detail',
+                        arguments: eventList,
+
                       );
                     },
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(event.title),
-                 ),
-               ],
-              )
+                //child: Column(
+                  //children: [
+
+              //),
              )
             )
         )

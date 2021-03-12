@@ -1,7 +1,7 @@
-import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/view/body.dart';
+import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Connpass Event State Search App',
+    title: 'Connpass Event State Search App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -24,11 +24,9 @@ class MyApp extends StatelessWidget {
         create: (_) => MainViewModel(),
         child: const MyHomePage(title: 'Connpass Event Search App'),
       ),
-    // initialRoute: '/',
-    // routes: <String, WidgetBuilder>{
-    //   '/': (BuildContext context) => const MyHomePage(),
-    //   '/detail': (BuildContext context) => const Detail(title: 'イベント詳細'),
-    //   }
+      routes: {
+        '/detail': (_) => Detail(),
+      },
     );
   }
 }
