@@ -7,12 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 
  /// イベント詳細のレイアウト
 class Detail extends StatelessWidget {
+
   final EventResponse event;
   const Detail({Key key, @required this.event}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
+    final List<EventResponse> args = ModalRoute.of(context).settings.arguments;
+    print(args); //変数受け取り確認
     return Scaffold(
       appBar: AppBar(
         title: const Text('イベント詳細'),
@@ -33,8 +35,7 @@ class Detail extends StatelessWidget {
 
 
   Widget buildDetail() {
-    Map<String, String> detailMap = {
-    // final detailMap = <String, String>{
+    Map<String, String> argsDetail = {
       '開催日時': changeTimeFormat(event.startedAt),
       '終了日時': changeTimeFormat(event.endedAt),
       '会場': event.place,
@@ -42,32 +43,32 @@ class Detail extends StatelessWidget {
     };
 
     return Container(
-        child: buildDetailRow(detailMap)
+        child: buildDetailRow(argsDetail)
     );
   }
 
 
-  Widget buildDetailRow(Map<String, String> detailMap) {
+  Widget buildDetailRow(Map<String, String> argsDetail) {
     final detailList = <Widget>[];
-    detailMap.forEach((key, value) {
+    argsDetail.forEach((key, value) {
       detailList.add(Row(
-          crossAxisAlignment: CrossAxisAlignment.start, // Rowなら左寄せ
-          children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                child: Text(key ?? ''),
-              ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+              child: Text(key ?? ''),
             ),
-            Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                child: Text(key ?? ''),
-              ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              child: Text(key ?? ''),
             ),
-          ],
+          ),
+        ],
       ));
     });
     return Column(
@@ -77,34 +78,32 @@ class Detail extends StatelessWidget {
   }
 
 
-}
-
- Widget buildUrl() {
-  return Container(
-      padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
-    child: RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        children: [
-        TextSpan(
-          text: 'connpassページはこちらから',
-          style: const TextStyle(color: Colors.lightBlue),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () async {
-              await launch(
-                event.eventUrl,
-                forceWebView: true,  // ios内かブラウザのどちらで開くかを指定 trunはios
-                forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
-              );
-             }
+  Widget buildUrl() {
+    return Container(
+        padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+              children: [
+                TextSpan(
+                    text: 'connpassページはこちらから',
+                    style: const TextStyle(color: Colors.lightBlue),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        await launch(
+                          event.eventUrl,
+                          forceWebView: true, // ios内かブラウザのどちらで開くかを指定 trunはios
+                          forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
+                        );
+                      }
+                ),
+              ]
           ),
-         ]
-       ),
-     )
-   );
- }
+        )
+    );
+  }
 
-// ISO-8601形式を「○○/○○/○○/○○:○○」に変換
+ // ISO-8601形式を「○○/○○/○○/○○:○○」に変換
   String changeTimeFormat(String before) {
     initializeDateFormatting('ja_JP');
 
@@ -113,3 +112,4 @@ class Detail extends StatelessWidget {
     final formatted = formatter.format(datetime);
     return formatted;
   }
+}

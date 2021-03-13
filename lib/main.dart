@@ -24,11 +24,9 @@ class MyApp extends StatelessWidget {
         create: (_) => MainViewModel(),
         child: const MyHomePage(title: 'Connpass Event Search App'),
       ),
-    // initialRoute: '/',
-    // routes: <String, WidgetBuilder>{
-    //   '/': (BuildContext context) => const MyHomePage(),
-    //   '/detail': (BuildContext context) => const Detail(title: 'イベント詳細'),
-    //   }
+      routes: {
+        '/detail': (_) => Detail(),
+      },
     );
   }
 }
