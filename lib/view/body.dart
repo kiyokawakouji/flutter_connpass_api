@@ -48,9 +48,15 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<EventResponse> eventList = response != null ? response.events : [];
 
     // ListViewでJSONデータを表示
+<<<<<<< HEAD
     // eventListが空ではないかを判定
     var body = eventList.isNotEmpty
     //Widget body = eventList.length > 0
+=======
+    //Widget body = eventList.isNotEmpty
+    //Widget body = eventList.length > 0
+    var body = eventList.isNotEmpty
+>>>>>>> develop
         ? ListView(
         scrollDirection: Axis.vertical,
         controller: _scrollController,
@@ -58,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: eventList
             .map((event) =>
             Card(
+<<<<<<< HEAD
                child: ListTile(
                   title: Text(event.title),
 
@@ -75,6 +82,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
               //),
              )
+=======
+                child: ListTile(
+                  title: Text(event.title),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/detail',
+                      arguments: eventList,
+                    );
+                  },
+                ),
+>>>>>>> develop
             )
         )
             .toList())

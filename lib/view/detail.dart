@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
  /// イベント詳細のレイアウト
 class Detail extends StatelessWidget {
+<<<<<<< HEAD
   EventResponse event;
   //Detail(EventResponse event);
 
@@ -15,12 +16,21 @@ class Detail extends StatelessWidget {
 
   //const Detail(Type eventResponse, this.event);
   Detail({Key key, @required this.event}) : super(key: key);
+=======
 
+  final EventResponse event;
+  const Detail({Key key, @required this.event}) : super(key: key);
+>>>>>>> develop
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     // パラメーターを取り出す
     final List<EventResponse> args = ModalRoute.of(context).settings.arguments;
+=======
+    final List<EventResponse> args = ModalRoute.of(context).settings.arguments;
+    print(args); //変数受け取り確認
+>>>>>>> develop
     return Scaffold(
       appBar: AppBar(
         title: const Text('イベント詳細'),
@@ -41,7 +51,11 @@ class Detail extends StatelessWidget {
 
 
   Widget buildDetail() {
+<<<<<<< HEAD
     Map<String, String> detailMap = {
+=======
+    Map<String, String> argsDetail = {
+>>>>>>> develop
       '開催日時': changeTimeFormat(event.startedAt),
       '終了日時': changeTimeFormat(event.endedAt),
       '会場': event.place,
@@ -49,16 +63,20 @@ class Detail extends StatelessWidget {
     };
 
     return Container(
-        child: buildDetailRow(detailMap)
+        child: buildDetailRow(argsDetail)
     );
   }
 
 
-  Widget buildDetailRow(Map<String, String> detailMap) {
+  Widget buildDetailRow(Map<String, String> argsDetail) {
     final detailList = <Widget>[];
-    detailMap.forEach((key, value) {
+    argsDetail.forEach((key, value) {
       detailList.add(Row(
+<<<<<<< HEAD
         crossAxisAlignment: CrossAxisAlignment.start, // Rowなら左寄せ
+=======
+        crossAxisAlignment: CrossAxisAlignment.start,
+>>>>>>> develop
         children: [
           Expanded(
             flex: 1,
@@ -86,6 +104,7 @@ class Detail extends StatelessWidget {
 
   Widget buildUrl() {
     return Container(
+<<<<<<< HEAD
       padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
       child: RichText(
         textAlign: TextAlign.center,
@@ -106,10 +125,32 @@ class Detail extends StatelessWidget {
           ],
         ),
       ),
+=======
+        padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+              children: [
+                TextSpan(
+                    text: 'connpassページはこちらから',
+                    style: const TextStyle(color: Colors.lightBlue),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        await launch(
+                          event.eventUrl,
+                          forceWebView: true, // ios内かブラウザのどちらで開くかを指定 trunはios
+                          forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
+                        );
+                      }
+                ),
+              ]
+          ),
+        )
+>>>>>>> develop
     );
   }
 
-// ISO-8601形式を「○○/○○/○○/○○:○○」に変換
+ // ISO-8601形式を「○○/○○/○○/○○:○○」に変換
   String changeTimeFormat(String before) {
     initializeDateFormatting('ja_JP');
 
