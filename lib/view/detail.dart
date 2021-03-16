@@ -8,29 +8,17 @@ import 'package:url_launcher/url_launcher.dart';
 
  /// イベント詳細のレイアウト
 class Detail extends StatelessWidget {
-<<<<<<< HEAD
-  EventResponse event;
-  //Detail(EventResponse event);
 
   //Detail(EventResponse event);
 
   //const Detail(Type eventResponse, this.event);
-  Detail({Key key, @required this.event}) : super(key: key);
-=======
-
-  final EventResponse event;
-  const Detail({Key key, @required this.event}) : super(key: key);
->>>>>>> develop
+  //Detail({Key key, @required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     // パラメーターを取り出す
     final List<EventResponse> args = ModalRoute.of(context).settings.arguments;
-=======
-    final List<EventResponse> args = ModalRoute.of(context).settings.arguments;
     print(args); //変数受け取り確認
->>>>>>> develop
     return Scaffold(
       appBar: AppBar(
         title: const Text('イベント詳細'),
@@ -51,11 +39,7 @@ class Detail extends StatelessWidget {
 
 
   Widget buildDetail() {
-<<<<<<< HEAD
-    Map<String, String> detailMap = {
-=======
     Map<String, String> argsDetail = {
->>>>>>> develop
       '開催日時': changeTimeFormat(event.startedAt),
       '終了日時': changeTimeFormat(event.endedAt),
       '会場': event.place,
@@ -72,11 +56,7 @@ class Detail extends StatelessWidget {
     final detailList = <Widget>[];
     argsDetail.forEach((key, value) {
       detailList.add(Row(
-<<<<<<< HEAD
-        crossAxisAlignment: CrossAxisAlignment.start, // Rowなら左寄せ
-=======
         crossAxisAlignment: CrossAxisAlignment.start,
->>>>>>> develop
         children: [
           Expanded(
             flex: 1,
@@ -104,7 +84,6 @@ class Detail extends StatelessWidget {
 
   Widget buildUrl() {
     return Container(
-<<<<<<< HEAD
       padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
       child: RichText(
         textAlign: TextAlign.center,
@@ -125,28 +104,6 @@ class Detail extends StatelessWidget {
           ],
         ),
       ),
-=======
-        padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
-        child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-              children: [
-                TextSpan(
-                    text: 'connpassページはこちらから',
-                    style: const TextStyle(color: Colors.lightBlue),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () async {
-                        await launch(
-                          event.eventUrl,
-                          forceWebView: true, // ios内かブラウザのどちらで開くかを指定 trunはios
-                          forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
-                        );
-                      }
-                ),
-              ]
-          ),
-        )
->>>>>>> develop
     );
   }
 
