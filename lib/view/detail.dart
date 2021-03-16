@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
+import 'package:flutter_connpass_api_app/view/body.dart';
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -8,8 +9,10 @@ import 'package:url_launcher/url_launcher.dart';
  /// イベント詳細のレイアウト
 class Detail extends StatelessWidget {
 
-  final EventResponse event;
-  const Detail({Key key, @required this.event}) : super(key: key);
+  //final EventResponse event;
+
+  //const Detail({Key key, this.event}) : super(key: key);
+  //const Detail({Key key, @required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

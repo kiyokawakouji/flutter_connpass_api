@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/model/connpass_response.dart';
+import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
@@ -49,9 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<EventResponse> eventList = response != null ? response.events : [];
 
     // ListViewでJSONデータを表示
-    //Widget body = eventList.isNotEmpty
+    Widget body = eventList.isNotEmpty
     //Widget body = eventList.length > 0
-    var body = eventList.isNotEmpty
+    //var body = eventList.isNotEmpty
         ? ListView(
         scrollDirection: Axis.vertical,
         controller: _scrollController,
