@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
-import 'package:flutter_connpass_api_app/view/body.dart';
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -9,15 +8,13 @@ import 'package:url_launcher/url_launcher.dart';
  /// イベント詳細のレイアウト
 class Detail extends StatelessWidget {
 
-  //final EventResponse event;
-
-  //const Detail({Key key, this.event}) : super(key: key);
-  //const Detail({Key key, @required this.event}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    final List<EventResponse> args = ModalRoute.of(context).settings.arguments;
-    print(args); //変数受け取り確認
+    final EventResponse args = ModalRoute.of(context).settings.arguments;
+    //変数受け取り確認
+    print("${args.place}");
+    print("${args.startedAt}");
+    print("${args.address}");
     return Scaffold(
       appBar: AppBar(
         title: const Text('イベント詳細'),
@@ -28,8 +25,8 @@ class Detail extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            buildDetail(),
-            buildUrl(),
+            buildDetail(args),
+            buildUrl(args),
           ],
         ),
       ),
@@ -37,12 +34,13 @@ class Detail extends StatelessWidget {
   }
 
 
-  Widget buildDetail() {
+  Widget buildDetail(EventResponse args) {
     Map<String, String> argsDetail = {
-      '開催日時': changeTimeFormat(event.startedAt),
-      '終了日時': changeTimeFormat(event.endedAt),
-      '会場': event.place,
-      '会場の所在地': event.address,
+      //'開催日時': changeTimeFormat(args.startedAt),
+      //'終了日時': changeTimeFormat(args.endedAt),
+      'タイトル': args.title,
+      '会場': args.place,
+      '会場の所在地': args.address,
     };
 
     return Container(
@@ -68,7 +66,7 @@ class Detail extends StatelessWidget {
             flex: 3,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-              child: Text(key ?? ''),
+              child: Text(value ?? ''),
             ),
           ),
         ],
@@ -81,7 +79,7 @@ class Detail extends StatelessWidget {
   }
 
 
-  Widget buildUrl() {
+  Widget buildUrl(EventResponse args) {
     return Container(
         padding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
         child: RichText(
@@ -94,7 +92,8 @@ class Detail extends StatelessWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         await launch(
-                          event.eventUrl,
+                          // event.eventUrl,
+                          'https://rakus.connpass.com/event/204540/',
                           forceWebView: true, // ios内かブラウザのどちらで開くかを指定 trunはios
                           forceSafariVC: true, // Android内かブラウザのどちらで開くかを指定 trunはAndroid
                         );

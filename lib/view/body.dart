@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_connpass_api_app/model/connpass_response.dart';
-import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/model/event_response.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
@@ -49,30 +48,29 @@ class _MyHomePageState extends State<MyHomePage> {
     final state = context.select<MainViewModelData, MainViewModelState>((data) => data.viewModelState);
     final List<EventResponse> eventList = response != null ? response.events : [];
 
+    print("(^0^)$eventList");
     // ListViewでJSONデータを表示
     Widget body = eventList.isNotEmpty
-    //Widget body = eventList.length > 0
-    //var body = eventList.isNotEmpty
         ? ListView(
         scrollDirection: Axis.vertical,
         controller: _scrollController,
         shrinkWrap: true,
         children: eventList
-            .map((event) =>
-            Card(
-                child: ListTile(
-                  title: Text(event.title),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/detail',
-                      arguments: eventList,
-                    );
-                  },
-                ),
-            )
-        )
-            .toList())
+            .map((event) {
+          print("${event.startedAt}");
+          return Card(
+            child: ListTile(
+              title: Text(event.title),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/detail',
+                  arguments: event,
+                );
+              },
+            ),
+          );
+        }).toList())
 
     // bodyの初期画面
         : const Center(
