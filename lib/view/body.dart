@@ -72,16 +72,16 @@ class _MyHomePageState extends State<MyHomePage> {
         }).toList())
 
     // bodyの初期画面
-        : const Center(
-      child: Padding(
-        padding: EdgeInsets.all(24),
-        child: Text(
-          'ここに検索結果を表示する',
-          style: TextStyle(fontSize: 19),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
+        : Center(
+           child: Padding(
+             padding: EdgeInsets.all(24),
+             child: Text(
+               'ここに検索結果を表示する',
+               style: TextStyle(fontSize: 19),
+               textAlign: TextAlign.center,
+            ),
+          ),
+        );
 
     if (state == MainViewModelState.loading) {
       body = const Center(child: CircularProgressIndicator(),);
