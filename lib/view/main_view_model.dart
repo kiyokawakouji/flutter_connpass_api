@@ -10,6 +10,7 @@ class MainViewModel extends StateNotifier<MainViewModelData> {
     state = state.copyWith(viewModelState: MainViewModelState.loading);
     getEvents(searchWord)
         .then((res) {
+          // @freezedの中にあるresponseの値を更新するための処理
       state = state.copyWith(response: res,
           viewModelState: MainViewModelState.normal);
     }).catchError((_) {  // エラーハンドリング
