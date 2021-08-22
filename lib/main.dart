@@ -5,7 +5,6 @@ import 'package:flutter_connpass_api_app/view/detail.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model.dart';
 import 'package:flutter_connpass_api_app/view/main_view_model_data.dart';
 
-
 void main() {
   runApp(MyApp());
 }
